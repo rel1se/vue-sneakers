@@ -1,27 +1,27 @@
 <script setup>
-defineProps(
-    {
-      items: Array
-    }
-)
-import Card from "@/components/Card.vue";
+import Card from '@/components/Card.vue'
 
-const onClickFavorite = () => {
-  alert('Добавлено в избранное')
-}
+defineProps({
+  items: Array,
+  addToFavorite: Function
+})
+
+const emit = defineEmits(['addToFavorite', 'addToCart'])
 </script>
 
 <template>
   <div class="grid grid-cols-4 gap-2">
     <Card
-        v-for="item in items"
-        :key="item.id"
-        :image-url="item.imageUrl"
-        :title="item.title"
-        :price="item.price"
-        :is-added="true"
-        :is-favorite="true"
-        :on-click-favorite="onClickFavorite"
+      v-for="item in items"
+      :key="item.id"
+      :id="item.id"
+      :imageUrl="item.imageUrl"
+      :title="item.title"
+      :price="item.price"
+      :isAdded="item.isAdded"
+      :isFavorite="item.isFavorite"
+      :onClickFavorite="() => emit('addToFavorite', item)"
+      :onClickAdd="() => emit('addToCart', item)"
     />
   </div>
 </template>
