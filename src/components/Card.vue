@@ -10,7 +10,6 @@ defineProps({
   onClickFavorite: Function
 })
 </script>
-
 <template>
   <div
     class="relative m-2 border border-slate-100 rounded-3xl p-8 cursor-pointer transition hover:-translate-y-2 hover:shadow-xl"
@@ -23,11 +22,11 @@ defineProps({
       @click="onClickFavorite"
     />
     <img :src="imageUrl" alt="sneaker" />
-    <p class="mt-2">{{ title }}</p>
-    <div class="flex justify-between mt-5">
+    <p class="mt-2 mb-10">{{ title }}</p>
+    <div class="flex justify-between w-full">
       <div class="flex flex-col">
         <b>Цена: </b>
-        <span class="text-slate-400">{{ price }} руб.</span>
+        <span class="text-slate-400">от {{ price }} руб.</span>
       </div>
       <img
         v-if="onClickAdd"

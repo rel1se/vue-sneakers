@@ -31,11 +31,12 @@ defineProps({
           <span>Избранное</span>
         </li>
       </router-link>
-
-      <li class="flex items-center gap-3 cursor-pointer text-slate-500 hover:text-black">
-        <img src="/profile.svg" alt="Profile" />
-        <span>Профиль</span>
-      </li>
+      <router-link to="/profile">
+        <li class="flex items-center gap-3 cursor-pointer text-slate-500 hover:text-black">
+          <img src="/profile.svg" alt="Profile" />
+          <span>Профиль</span>
+        </li>
+      </router-link>
     </ul>
   </header>
 </template>
