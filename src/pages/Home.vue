@@ -3,6 +3,8 @@ import CardList from '../components/CardList.vue'
 import axios from 'axios'
 import { inject, reactive, watch, ref, onMounted } from 'vue'
 import debounce from 'lodash.debounce'
+import Footer from "@/components/Footer.vue";
+import Slider from "@/components/Slider.vue";
 
 const items = ref([])
 
@@ -110,6 +112,7 @@ watch(filters, fetchItems)
 </script>
 <template>
   <div class="flex justify-between items-center">
+    <Slider/>
     <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
     <div class="flex gap-4">
       <select @change="onChangeSort" class="py-2 px-3 border rounded-md outline-none">
@@ -131,4 +134,5 @@ watch(filters, fetchItems)
   <div class="mt-10">
     <CardList :items="items" @add-to-favorite="addToFavorite" @add-to-cart="onClickPlus" />
   </div>
+  <Footer/>
 </template>

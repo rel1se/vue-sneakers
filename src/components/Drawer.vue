@@ -54,7 +54,7 @@ const buttonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value
       <InfoBlock
         v-if="orderId"
         title="Заказ оформлен!"
-        :description="`Ваш заказ #${orderId} скоро будет передан курьерской доставке`"
+        :description="`Ваш заказ №${orderId} скоро будет передан курьерской доставке`"
         image-url="/order-success-icon.png"
       />
     </div>
