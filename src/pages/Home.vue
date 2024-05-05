@@ -111,8 +111,10 @@ watch(cart, () => {
 watch(filters, fetchItems)
 </script>
 <template>
-  <div class="flex justify-between items-center">
+  <div class="w-full">
     <Slider/>
+  </div>
+  <div class="flex justify-between items-center mt-8">
     <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
     <div class="flex gap-4">
       <select @change="onChangeSort" class="py-2 px-3 border rounded-md outline-none">
@@ -123,14 +125,16 @@ watch(filters, fetchItems)
       <div class="relative">
         <img class="absolute left-4 top-3" src="/search.svg" alt="Search" />
         <input
-          @input="onChangeInput"
-          class="border rounded py-2 pl-10 pr-4 outline-none focus:border-gray-400"
-          type="text"
-          placeholder="Поиск"
+            @input="onChangeInput"
+            class="border rounded py-2 pl-10 pr-4 outline-none focus:border-gray-400"
+            type="text"
+            placeholder="Поиск"
         />
       </div>
     </div>
   </div>
+
+  <!-- Список карточек и футер, как было -->
   <div class="mt-10">
     <CardList :items="items" @add-to-favorite="addToFavorite" @add-to-cart="onClickPlus" />
   </div>

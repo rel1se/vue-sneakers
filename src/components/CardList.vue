@@ -1,5 +1,6 @@
 <script setup>
 import Card from '@/components/Card.vue'
+import {computed} from "vue";
 
 defineProps({
   items: Array,
@@ -7,6 +8,10 @@ defineProps({
 })
 
 const emit = defineEmits(['addToFavorite', 'addToCart'])
+
+const isAuthenticated = computed (() => {
+  return !!localStorage.getItem('token');
+})
 </script>
 
 <template>
@@ -22,6 +27,7 @@ const emit = defineEmits(['addToFavorite', 'addToCart'])
       :isFavorite="item.isFavorite"
       :onClickFavorite="isFavorites ? null : () => emit('addToFavorite', item)"
       :onClickAdd="isFavorites ? null : () => emit('addToCart', item)"
+      :isAuth="isAuthenticated"
     />
   </div>
 </template>

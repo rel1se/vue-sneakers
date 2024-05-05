@@ -1,7 +1,5 @@
 <script setup>
 import Header from '@/components/Header.vue'
-import Home from '@/pages/Home.vue'
-import Favorites from '@/pages/Favorites.vue'
 import { computed, provide, ref, watch } from 'vue'
 import Drawer from '@/components/Drawer.vue'
 
@@ -50,6 +48,8 @@ provide('cartActions', {
 })
 
 /* Корзина END*/
+
+
 </script>
 
 <template>

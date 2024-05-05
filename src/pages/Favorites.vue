@@ -15,7 +15,6 @@ onMounted(async () => {
     )
     favorites.value = data.map((obj) => obj.sneaker)
     favoritesLoaded.value = true
-    console.log(favorites.value.length)
   } catch (error) {
     console.log(error)
   }

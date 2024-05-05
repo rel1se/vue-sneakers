@@ -1,56 +1,38 @@
-<script>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import sliderImg3 from "../assets/slider-img-1.png";
-import sliderImg4 from "../assets/slider-img-2.jpg";
-import sliderImg6 from "../assets/slider-img-3.png";
+<script setup>
+import {ref, onMounted, onUnmounted} from 'vue';
 
-export default {
-  setup() {
-    const images = [sliderImg3, sliderImg4, sliderImg6];
-    const index = ref(0);
-    const delay = 5000;
-    let timeoutRef;
+const images = ref([
+  'https://i.postimg.cc/DzXFPGMq/slider-img-1.png',
+  'https://i.postimg.cc/htwcmspD/slider-img-2.jpg',
+  'https://i.postimg.cc/MTJwPGCg/slider-img-3.png'
+]);
+const currentIndex = ref(0);
 
-    const resetTimeout = () => {
-      if (timeoutRef) {
-        clearTimeout(timeoutRef);
-      }
-    };
+function nextImage() {
+  currentIndex.value = (currentIndex.value + 1) % images.value.length;
+}
 
-    const startSlider = () => {
-      resetTimeout();
-      timeoutRef = setTimeout(() => {
-        index.value = (index.value === images.value.length - 1) ? 0 : index.value + 1;
-      }, delay);
-    };
+let intervalId = null;
+onMounted(() => {
+  intervalId = setInterval(nextImage, 4000);
+});
 
-    onMounted(() => {
-      startSlider();
-    });
+onUnmounted(() => {
+  clearInterval(intervalId);
+});
 
-    onBeforeUnmount(() => {
-      resetTimeout();
-    });
-
-    return {
-      images,
-      index
-    };
-  }
-};
 </script>
 
+
 <template>
-  <div class="mb-10 overflow-hidden max-w-7xl">
+  <div class="slider relative overflow-hidden rounded-lg w-full" style="height: 550px">
     <div
-        class="whitespace-nowrap ease-linear duration-1000"
-        :style="{ transform: `translate3d(${-index * 100}%, 0, 0)` }"
-    >
-      <div
-          class="inline-block h-auto w-auto rounded-2xl"
-          v-for="(image, idx) in images"
-          :key="idx"
-          :style="{ backgroundImage: `url(${image})` }"></div>
-    </div>
+        v-for="(image, index) in images"
+        :key="index"
+        class="slider-image absolute inset-0 w-full h-full bg-center bg-cover transition-opacity duration-1000 ease-in-out"
+        :style="{ backgroundImage: 'url(' + image + ')' }"
+        :class="{ 'opacity-100': index === currentIndex, 'opacity-0': index !== currentIndex }"
+    ></div>
   </div>
 </template>
+
