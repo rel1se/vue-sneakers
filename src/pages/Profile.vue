@@ -62,15 +62,19 @@ onMounted(async () => {
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-3xl font-bold">{{ username}}'s profile</h2>
       <button @click="logout"
-              class="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400">
+              class="w-1/12 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400">
         Выйти
       </button>
     </div>
     <CardList :items="orders" :is-favorites="true"/>
-    <div v-if="isAdmin" class="mt-10 mb-10">
+    <div v-if="isAdmin" class="mt-10 mb-10 flex justify-between items-center">
       <h2 class="text-3xl font-bold">Edit items</h2>
-      <CardList :items="items" :is-favorites="false" :is-admin="true"></CardList>
+      <router-link to="/add" class="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400">
+          Добавить кроссовки
+      </router-link>
     </div>
+      <CardList :items="items" :is-favorites="false" :is-admin="true"></CardList>
+=
   </div>
   <div v-else-if="ordersLoaded && orders.length === 0">
     <InfoBlock
