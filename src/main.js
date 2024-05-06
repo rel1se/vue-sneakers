@@ -11,6 +11,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import Registration from "@/pages/Registration.vue";
 import Authorization from "@/pages/Authorization.vue";
+import Admin from "@/pages/Admin.vue";
 
 const app = createApp(App)
 
@@ -20,6 +21,7 @@ const routes = [
   { path: '/profile', name: 'Profile', component: Profile },
   { path: '/registration', name: 'Registration', component: Registration },
   { path: '/auth', name: 'Authorization', component: Authorization },
+  { path: '/admin', name: 'Admin', component: Admin}
 ]
 
 const router = createRouter({

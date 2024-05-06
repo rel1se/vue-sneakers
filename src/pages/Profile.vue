@@ -10,7 +10,9 @@ const router = useRouter()
 const orders = ref([])
 const ordersLoaded = ref()
 const { fetchUserInfo } = inject('user')
+const items = ref([])
 const username = ref('')
+const isAdmin = ref(false)
 
 const logout = () => {
   localStorage.removeItem('token')
@@ -20,13 +22,29 @@ const logout = () => {
 }
 
 
+const fetchItems = async () => {
+  try {
+    const {data} = await axios.get('https://2475f30aea4ec3d4.mokky.dev/sneakers')
+    items.value = data.map((obj) => ({
+      ...obj,
+      isFavorite: false,
+      isAdded: false
+    }))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 onMounted(async () => {
   const userInfo = await fetchUserInfo();
   if (userInfo) {
     username.value = userInfo.fullname;
+    isAdmin.value = userInfo?.isAdmin
   }
-
   try {
+    if (isAdmin.value){
+      fetchItems()
+    }
     const {data} = await axios.get(`https://2475f30aea4ec3d4.mokky.dev/orders?user_id=${userInfo.id}`)
     orders.value = data.flatMap((obj) => obj.items)
     ordersLoaded.value = true
@@ -49,6 +67,10 @@ onMounted(async () => {
       </button>
     </div>
     <CardList :items="orders" :is-favorites="true"/>
+    <div v-if="isAdmin" class="mt-10 mb-10">
+      <h2 class="text-3xl font-bold">Edit items</h2>
+      <CardList :items="items" :is-favorites="false" :is-admin="true"></CardList>
+    </div>
   </div>
   <div v-else-if="ordersLoaded && orders.length === 0">
     <InfoBlock

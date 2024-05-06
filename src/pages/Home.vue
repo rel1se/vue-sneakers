@@ -1,7 +1,7 @@
 <script setup>
 import CardList from '../components/CardList.vue'
 import axios from 'axios'
-import {inject, reactive, watch, ref, onMounted} from 'vue'
+import {inject, reactive, watch, ref, onMounted, provide} from 'vue'
 import debounce from 'lodash.debounce'
 import Footer from "@/components/Footer.vue";
 import Slider from "@/components/Slider.vue";
