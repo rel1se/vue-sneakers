@@ -16,7 +16,6 @@
     "lodash.debounce": "^4.0.8",
     "vue": "^3.4.15",
     "vue-future-slider": "^1.0.5",
-    "vue-jwt-decode": "^0.1.0",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {

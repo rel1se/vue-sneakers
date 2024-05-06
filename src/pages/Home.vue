@@ -1,19 +1,25 @@
 <script setup>
 import CardList from '../components/CardList.vue'
 import axios from 'axios'
-import { inject, reactive, watch, ref, onMounted } from 'vue'
+import {inject, reactive, watch, ref, onMounted} from 'vue'
 import debounce from 'lodash.debounce'
 import Footer from "@/components/Footer.vue";
 import Slider from "@/components/Slider.vue";
 
 const items = ref([])
 
+
 const filters = reactive({
   sortBy: 'title',
   searchQuery: ''
 })
 
-const { addToCart, removeFromCart, cart } = inject('cartActions')
+const {user, fetchUserInfo} = inject('user')
+
+
+const {addToCart, removeFromCart, cart} = inject('cartActions')
+
+
 
 const onClickPlus = (item) => {
   if (!item.isAdded) {
@@ -39,7 +45,7 @@ const fetchItems = async () => {
     if (filters.searchQuery) {
       params.title = `*${filters.searchQuery}*`
     }
-    const { data } = await axios.get('https://2475f30aea4ec3d4.mokky.dev/sneakers', {
+    const {data} = await axios.get('https://2475f30aea4ec3d4.mokky.dev/sneakers', {
       params
     })
     items.value = data.map((obj) => ({
@@ -54,26 +60,32 @@ const fetchItems = async () => {
 
 const fetchFavorites = async () => {
   try {
-    const { data: favorites } = await axios.get('https://2475f30aea4ec3d4.mokky.dev/favorites')
+    if (!user.value.id) {
+      console.error("Пользователь не авторизован");
+      return;
+    }
+    const params = {
+      user_id: user.value.id
+    };
+    const {data: favorites} = await axios.get('https://2475f30aea4ec3d4.mokky.dev/favorites', { params });
     items.value = items.value.map((item) => {
-      const favorite = favorites.find((favorite) => favorite.sneaker_id === item.id)
-      if (!favorite) {
-        return item
-      }
-      return {
+      const favorite = favorites.find((favorite) => favorite.sneaker_id === item.id);
+      return favorite ? {
         ...item,
         isFavorite: true,
         favoriteId: favorite.id
-      }
-    })
+      } : item;
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
+
 const addToFavorite = async (item) => {
   try {
     const obj = {
-      sneaker_id: item.id
+      sneaker_id: item.id,
+      user_id: user.value.id
     }
     if (!item.isFavorite) {
       item.isFavorite = true
@@ -92,14 +104,15 @@ const addToFavorite = async (item) => {
 onMounted(async () => {
   const localCart = localStorage.getItem('cart')
   cart.value = localCart ? JSON.parse(localCart) : []
-
-  await fetchItems()
-  await fetchFavorites()
+  await fetchUserInfo();
+  await fetchItems();
+  await fetchFavorites();
   items.value = items.value.map((item) => ({
     ...item,
     isAdded: cart.value.some((cartItem) => cartItem.id === item.id)
-  }))
-})
+  }));
+});
+
 
 watch(cart, () => {
   items.value = items.value.map((item) => ({
@@ -109,6 +122,7 @@ watch(cart, () => {
 })
 
 watch(filters, fetchItems)
+
 </script>
 <template>
   <div class="w-full">
@@ -123,7 +137,7 @@ watch(filters, fetchItems)
         <option value="-price">По цене (дорогие)</option>
       </select>
       <div class="relative">
-        <img class="absolute left-4 top-3" src="/search.svg" alt="Search" />
+        <img class="absolute left-4 top-3" src="/search.svg" alt="Search"/>
         <input
             @input="onChangeInput"
             class="border rounded py-2 pl-10 pr-4 outline-none focus:border-gray-400"
@@ -133,10 +147,8 @@ watch(filters, fetchItems)
       </div>
     </div>
   </div>
-
-  <!-- Список карточек и футер, как было -->
   <div class="mt-10">
-    <CardList :items="items" @add-to-favorite="addToFavorite" @add-to-cart="onClickPlus" />
+    <CardList :items="items" @add-to-favorite="addToFavorite" @add-to-cart="onClickPlus"/>
   </div>
   <Footer/>
 </template>

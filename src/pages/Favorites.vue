@@ -1,18 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import axios from 'axios'
 
 import CardList from '../components/CardList.vue'
 import InfoBlock from '../components/InfoBlock.vue'
 
+const { user } = inject('user')  // Инжекция данных пользователя
 const favorites = ref([])
 const favoritesLoaded = ref(false)
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get(
-      'https://2475f30aea4ec3d4.mokky.dev/favorites?_relations=sneakers'
-    )
+    if (!user.value.id) {
+      console.error("Пользователь не авторизован");
+      return;
+    }
+    const params = {
+      user_id: user.value.id  // Добавляем фильтрацию по user_id
+    };
+    const { data } = await axios.get('https://2475f30aea4ec3d4.mokky.dev/favorites?_relations=sneakers', { params })
     favorites.value = data.map((obj) => obj.sneaker)
     favoritesLoaded.value = true
   } catch (error) {
@@ -28,9 +34,9 @@ onMounted(async () => {
   </div>
   <div v-else-if="favoritesLoaded && favorites.length === 0">
     <InfoBlock
-      title="Закладок нет"
-      image-url="/emoji-1.png"
-      description="Вы ничего не добавляли в закладки"
+        title="Закладок нет"
+        image-url="/emoji-1.png"
+        description="Вы ничего не добавляли в закладки"
     />
   </div>
   <div v-else>

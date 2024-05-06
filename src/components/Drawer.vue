@@ -13,6 +13,8 @@ const props = defineProps({
 
 const { cart } = inject('cartActions')
 
+const { user } = inject('user')
+
 const isCreatingOrder = ref(false)
 
 const orderId = ref(null)
@@ -20,14 +22,17 @@ const createOrder = async () => {
   try {
     isCreatingOrder.value = true
 
-    const { data } = await axios.post('https://2475f30aea4ec3d4.mokky.dev/orders', {
+    await axios.post('https://2475f30aea4ec3d4.mokky.dev/orders', {
       items: cart.value,
-      totalPrice: props.totalPrice.value
+      totalPrice: props.totalPrice.value,
+      user_id: user.value.id
     })
 
     cart.value = []
 
-    orderId.value = data.id
+    const response = await axios.get(`https://2475f30aea4ec3d4.mokky.dev/orders?user_id=${user.value.id}`)
+
+    orderId.value = response.data.length
   } catch (err) {
     console.log(err)
   } finally {

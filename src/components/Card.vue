@@ -1,4 +1,5 @@
 <script setup>
+
 defineProps({
   id: Number,
   imageUrl: String,
@@ -8,9 +9,8 @@ defineProps({
   isAdded: Boolean,
   onClickAdd: Function,
   onClickFavorite: Function,
-  isAuth: Function
+  isAuth: Boolean
 })
-
 
 </script>
 <template>
