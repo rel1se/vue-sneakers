@@ -5,6 +5,7 @@ import axios from 'axios'
 import CardList from '../components/CardList.vue'
 import InfoBlock from '../components/InfoBlock.vue'
 import {useRouter} from "vue-router";
+import {ContentLoader} from "vue-content-loader";
 
 const router = useRouter()
 const orders = ref([])
@@ -84,6 +85,17 @@ onMounted(async () => {
     />
   </div>
   <div v-else>
-    <p>Loading...</p>
+    <content-loader
+        viewBox="0 0 1250 400"
+        :speed="2"
+        primaryColor="#f3f3f3"
+        secondaryColor="#ecebeb"
+    >
+      <rect x="20" y="0" rx="15" ry="15" width="350" height="50" />
+      <rect x="30" y="100" rx="15" ry="15" width="250" height="300" />
+      <rect x="330" y="100" rx="15" ry="15" width="250" height="300" />
+      <rect x="630" y="100" rx="15" ry="15" width="250" height="300" />
+      <rect x="930" y="100" rx="15" ry="15" width="250" height="300" />
+    </content-loader>
   </div>
 </template>
