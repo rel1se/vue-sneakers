@@ -13,6 +13,7 @@ import Registration from "@/pages/Registration.vue";
 import Authorization from "@/pages/Authorization.vue";
 import AddItem from "@/pages/AddItem.vue";
 import EditItem from "@/pages/EditItem.vue";
+import Sneaker from "@/pages/Sneaker.vue";
 
 const app = createApp(App)
 
@@ -23,7 +24,8 @@ const routes = [
   { path: '/registration', name: 'Registration', component: Registration },
   { path: '/auth', name: 'Authorization', component: Authorization },
   { path: '/admin', name: 'Edit', component: EditItem},
-  { path: '/add', name: 'Add', component: AddItem}
+  { path: '/add', name: 'Add', component: AddItem},
+  {path: '/item', name: 'Sneaker', component: Sneaker}
 ]
 
 const router = createRouter({

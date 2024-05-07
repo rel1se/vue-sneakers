@@ -20,6 +20,9 @@ const router = useRouter()
 const handleEdit = () => {
   router.push({ path: '/admin', query: { id: props.id, title: props.title, price: props.price,imageUrl: props.imageUrl} });
 }
+const handleClick = () => {
+  router.push({path: `/item`, query: {id: props.id}})
+}
 
 const handleDelete = async () => {
   try {
@@ -50,7 +53,8 @@ const handleDelete = async () => {
         class="absolute top-8 left-8 w-6 opacity-50"
         @click="handleEdit"
     />
-    <img :src="imageUrl" alt="Sneaker" />
+    <img @click="handleClick"
+        :src="imageUrl" alt="Sneaker" />
     <p class="mt-2 mb-10">{{ title }}</p>
     <div class="flex justify-between w-full">
       <div class="flex flex-col">
