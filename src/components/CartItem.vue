@@ -3,7 +3,8 @@ const emit = defineEmits(['onClickRemove'])
 defineProps({
   imageUrl: String,
   title: String,
-  price: Number
+  price: Number,
+  size: Number
 })
 </script>
 
@@ -12,6 +13,7 @@ defineProps({
     <img :src="imageUrl" class="w-18 h-16" :alt="title" />
     <div class="flex flex-col w-full flex-1">
       <p>{{ title }}</p>
+      <p class="flex-1 text-slate-400">{{size}} EU</p>
       <div class="flex justify-between mt-5">
         <span class="font-bold flex-1">{{ price }} руб.</span>
         <img

@@ -62,12 +62,6 @@ const handleDelete = async () => {
         <span class="text-slate-400">от {{ price }} руб.</span>
       </div>
       <img
-        v-if="isAuth && (isAdmin ? false : onClickAdd)"
-        @click="onClickAdd"
-        :src="isAdded ? '/checked.svg' : '/plus.svg'"
-        alt="Plus"
-      />
-      <img
           v-if="isAuth && isAdmin"
           src="/btn-remove.svg"
           alt="Delete"

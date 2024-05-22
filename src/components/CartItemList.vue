@@ -3,6 +3,7 @@ import CartItem from '@/components/CartItem.vue'
 import { inject } from 'vue'
 
 const { cart, removeFromCart } = inject('cartActions')
+console.log(cart)
 </script>
 
 <template>
@@ -13,6 +14,7 @@ const { cart, removeFromCart } = inject('cartActions')
       :image-url="item.imageUrl"
       :title="item.title"
       :price="item.price"
+      :size="item.size"
       @on-click-remove="() => removeFromCart(item)"
     />
   </div>
